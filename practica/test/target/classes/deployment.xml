@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="deploymentFlow" doc:id="9f3d780e-70ba-4951-8012-0871da1ded9a" >
+		<http:listener doc:name="Listener" doc:id="2bb36944-2a71-4967-a8b4-5b67599969a4" config-ref="HTTP_Listener_config" path="/api/v1/sps/customers"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7968f673-46ff-45a1-9c5c-a83ef41349a6" message='#[output application/java&#10;---&#10;"Username: " ++ Mule::p("secure::username")&#10;++ " - " ++&#10;"Password: " ++ Mule::p("secure::pass")]'/>
+		<db:select doc:name="Select" doc:id="92ecff54-738d-4f5d-b69c-5d691f5b99ce" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM customers;]]></db:sql>
+		</db:select>
+		<set-payload value="listo" doc:name="Set Payload" doc:id="c8ceb178-5088-4963-82cd-e578a01cf2a1" />
+	</flow>
+</mule>

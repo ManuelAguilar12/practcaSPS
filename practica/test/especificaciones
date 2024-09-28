@@ -1,0 +1,97 @@
+#%RAML 1.0
+title: API de Gestión de Clientes
+version: v1
+baseUri: https://api.ejemplo.com/v1
+mediaType: application/json
+
+types:
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID único del cliente
+      name:
+        type: string
+        description: Nombre completo del cliente
+      email:
+        type: string
+        description: Correo electrónico del cliente
+      phone:
+        type: string
+        description: Número de teléfono del cliente
+      address:
+        type: object
+        properties:
+          street:
+            type: string
+          city:
+            type: string
+          state:
+            type: string
+          zipCode:
+            type: string
+
+/Customers:
+  get:
+    description: Obtener una lista de clientes
+    responses:
+      200:
+        body:
+          application/json:
+            type: Customer[]
+
+  post:
+    description: Crear un nuevo cliente
+    body:
+      application/json:
+        type: Customer
+    responses:
+      201:
+        body:
+          application/json:
+            type: Customer
+
+/Customer/{id}:
+  get:
+    description: Obtener un cliente específico por ID
+    uriParameters:
+      id:
+        description: ID del cliente
+        type: integer
+    responses:
+      200:
+        body:
+          application/json:
+            type: Customer
+      404:
+        description: Cliente no encontrado
+
+  put:
+    description: Actualizar un cliente existente
+    uriParameters:
+      id:
+        description: ID del cliente
+        type: integer
+    body:
+      application/json:
+        type: Customer
+    responses:
+      200:
+        body:
+          application/json:
+            type: Customer
+      404:
+        description: Cliente no encontrado
+
+  delete:
+    description: Eliminar un cliente por ID
+    uriParameters:
+      id:
+        description: ID del cliente
+        type: integer
+    responses:
+      204:
+        description: Cliente eliminado exitosamente
+      404:
+        description: Cliente no encontrado
